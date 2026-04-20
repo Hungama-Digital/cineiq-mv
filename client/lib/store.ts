@@ -30,6 +30,7 @@ import type {
 import {
   mvMockProjects,
   mvMockFullProject,
+  mvMockFullProjectLev,
   mvMockSongMetadata,
   mvMockConcepts,
   mvMockArchitecture,
@@ -177,6 +178,8 @@ export const useProjectStore = create<ProjectStore>()(
         const seeded: Record<string, MVProjectState> = {}
         // Give "Levitating" (mv-1) the full demo state
         seeded["mv-1"] = buildSeedLevitatingProject()
+        // Give "Levitating" Dua Lipa (mv-lev-1) the full rich state
+        seeded["mv-lev-1"] = { ...mvMockFullProjectLev }
         // Other mock projects → empty-ish states matching their summary's currentStep
         mvMockProjects.forEach((p) => {
           if (p.id === "mv-1") return
