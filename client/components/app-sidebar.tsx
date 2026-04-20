@@ -1,16 +1,15 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
-  Music,
   LayoutDashboard,
   Library,
   Settings,
   UsersRound,
   History,
   Plus,
-  Sparkles,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -32,15 +31,14 @@ export function AppSidebar() {
     <aside className="flex h-screen w-[220px] shrink-0 flex-col bg-sidebar border-r border-sidebar-border overflow-y-auto overflow-x-hidden">
       {/* Brand */}
       <div className="px-4 pt-5 pb-4">
-        <div className="flex items-center gap-2.5">
-          <div className="h-6 w-6 rounded-md bg-accent flex items-center justify-center">
-            <Music className="h-3.5 w-3.5 text-accent-foreground" />
-          </div>
-          <div className="h-4 w-px bg-sidebar-border" />
-          <span className="text-xs font-semibold tracking-wide text-sidebar-foreground/60 uppercase">
-            CineIQ MV
-          </span>
-        </div>
+        <Image
+          src="/hungama-logo.png"
+          alt="Hungama"
+          width={100}
+          height={32}
+          className="h-8 w-auto object-contain"
+          priority
+        />
       </div>
 
       {/* New Project CTA — navigates to /dashboard?new=1 which auto-opens the create dialog */}
@@ -86,19 +84,6 @@ export function AppSidebar() {
         })}
       </nav>
 
-      <div className="mx-3 h-px bg-sidebar-border" />
-
-      {/* Footer brand bar */}
-      <div className="mt-auto px-4 py-4 space-y-2">
-        <div className="flex items-center gap-1.5 text-[11px] text-sidebar-foreground/50">
-          <Sparkles className="h-3 w-3" />
-          <span className="uppercase tracking-wider font-semibold">Phase 1 · Preview</span>
-        </div>
-        <p className="text-[11px] text-sidebar-foreground/50 leading-relaxed">
-          AI-powered music video pipeline. Upload → 8-step workflow → Seedance / Veo /
-          Kling prompts.
-        </p>
-      </div>
     </aside>
   )
 }
