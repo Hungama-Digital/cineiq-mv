@@ -25,7 +25,7 @@ export const MV_STEP_DEFS: Record<MVStepId, MVStep> = {
     id: "architecture",
     order: 3,
     label: "Story Architecture",
-    shortLabel: "Arch",
+    shortLabel: "Arc",
     description: "Single vs. multi-thread",
   },
   story: {

@@ -92,12 +92,37 @@ export default function BeatSheetPage({
   const [selectedId, setSelectedId] = useState<string>("")
   const [regenerating, setRegenerating] = useState(false)
 
+  const charIds = project?.characterBible.map((c) => c.id).join(",") ?? ""
+
   useEffect(() => {
-    if (hydrated && project && project.beatSheet.length === 0) {
-      setBeats(projectId, beatVariations[0])
-      setSelectedId(beatVariations[0][0].beatId)
+    if (!hydrated) return
+    // Always read fresh from store to avoid stale closure values
+    const p = useProjectStore.getState().projects[projectId]
+    if (!p) return
+    const beats = p.beatSheet
+    const chars = p.characterBible
+
+    if (beats.length === 0) {
+      const initial = chars.length > 0
+        ? autoAssignCharacters(beatVariations[0], chars)
+        : beatVariations[0]
+      setBeats(projectId, initial)
+      setSelectedId(initial[0].beatId)
+      return
     }
-  }, [hydrated, project, projectId, setBeats])
+
+    if (chars.length > 0) {
+      const charIdSet = new Set(chars.map((c) => c.id))
+      const assignedCharIds = new Set(
+        beats.flatMap((b) => b.characterIds.filter((id) => charIdSet.has(id)))
+      )
+      if (assignedCharIds.size < chars.length) {
+        setBeats(projectId, autoAssignCharacters(beats, chars))
+      }
+    }
+  // Re-run whenever character list changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated, projectId, charIds])
 
   if (!hydrated || !project) {
     return <div className="p-8 text-sm text-muted-foreground">Loading…</div>
